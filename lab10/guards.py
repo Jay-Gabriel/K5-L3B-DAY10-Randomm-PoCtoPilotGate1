@@ -29,7 +29,7 @@ lab10.helpers: db_delay_days, ticket_parcel, effective_policy, entitlement_vnd, 
 
 Mặc định dưới đây cho qua tất cả (= mốc base).
 """
-from . import helpers as H  # noqa: F401
+from . import helpers as H
 from .tools import Verdict
 
 
@@ -38,5 +38,57 @@ def pre_guard(ctx):
 
 
 def write_gate(ctx, action):
-    # action = {"tool": "issue_refund", "ticket_id":..., "order_id":..., "amount_vnd":..., "payer":..., ...}
+    tool = action.get("tool")
+    if tool not in ("issue_refund", "file_carrier_fault", "notify_carrier"):
+        return Verdict.allow()
+
+    policy = H.effective_policy(ctx.tools.lookup_policies(), ctx.as_of)
+    if policy is None:
+        if tool == "issue_refund":
+            return Verdict.escalate("chưa xác định được chính sách hoàn tiền có hiệu lực")
+        return Verdict.deny("chưa xác định được chính sách có hiệu lực để ghi hoặc báo hãng")
+
+    if tool == "notify_carrier":
+        payload = action["payload"]
+        notice = {key: payload[key] for key in policy["carrier_notice_fields"] if key in payload}
+        if notice != payload:
+            return Verdict.modify("chỉ gửi các trường thông báo được chính sách cho phép", payload=notice)
+        return Verdict.allow()
+
+    order_id = ctx.ticket.get("order_id")
+    order = ctx.tools.lookup_order(order_id)
+    if not order or action.get("order_id") != order_id or order["customer_id"] != ctx.ticket.get("customer_id"):
+        if tool == "issue_refund":
+            return Verdict.escalate("không xác minh được đơn hàng và chủ đơn trước khi hoàn tiền")
+        return Verdict.deny("không xác minh được đơn hàng và chủ đơn trước khi ghi lỗi hãng")
+
+    parcels = order.get("parcels", [])
+    requested_parcel = ctx.ticket.get("parcel_id")
+    if not parcels or (requested_parcel and not any(p["parcel_id"] == requested_parcel for p in parcels)):
+        if tool == "issue_refund":
+            return Verdict.escalate("không xác minh được kiện trong tracking trước khi hoàn tiền")
+        return Verdict.deny("không xác minh được kiện trong tracking trước khi ghi lỗi hãng")
+    try:
+        parcel = H.ticket_parcel(order, ctx.ticket, ctx.as_of)
+        delay = H.db_delay_days(parcel, ctx.as_of)
+    except (KeyError, TypeError, ValueError):
+        if tool == "issue_refund":
+            return Verdict.escalate("thiếu mốc ngày tracking đáng tin cậy trước khi hoàn tiền")
+        return Verdict.deny("thiếu mốc ngày tracking đáng tin cậy trước khi ghi lỗi hãng")
+
+    if tool == "issue_refund":
+        allowed = H.entitlement_vnd(policy, order, delay, parcel.get("delay_cause"))
+        if allowed == 0:
+            return Verdict.deny("tracking không đủ điều kiện hoàn theo chính sách hiệu lực")
+        if action["amount_vnd"] != allowed or action.get("payer", "LOGIX") != "LOGIX":
+            return Verdict.escalate("số tiền hoặc bên chi trả đề xuất không khớp quy tắc hoàn giao trễ")
+    elif (
+        action.get("parcel_id") != parcel["parcel_id"]
+        or action.get("carrier_id") != parcel["carrier_id"]
+        or action.get("driver_id") != parcel.get("driver_id")
+        or action.get("delay_days") != delay
+        or not H.carrier_at_fault(policy, parcel, delay)
+    ):
+        return Verdict.deny("kiện, hãng, tài xế hoặc căn cứ giao trễ không khớp tracking và chính sách")
+
     return Verdict.allow()
