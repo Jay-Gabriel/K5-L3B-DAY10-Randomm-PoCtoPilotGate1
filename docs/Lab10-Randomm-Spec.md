@@ -32,6 +32,9 @@ python3 -m unittest discover -s tests
 
 **Đầu vào** — Một eval card và một PRD v1.1 chung từ Day 9, cùng đề, dữ liệu mô phỏng và mẫu JSON của Day 10.
 
+- [PRD v1.1 Day 9 của Bảo](https://github.com/Jay-Gabriel/K5-L3B-DAY09-TranGiaBao-2A202603914-EvaluationandFailureAnalysis/blob/main/docs/PRD_v1.1.md) — Minh đọc mục 3, Diệp đọc mục 2 và 6 để điền A1.
+- [Eval card Day 9 của Bảo](https://github.com/Jay-Gabriel/K5-L3B-DAY09-TranGiaBao-2A202603914-EvaluationandFailureAnalysis/blob/main/docs/eval_card.md) — cả nhóm dùng chung để tham khảo cách đo cho A2.
+
 - **Minh:** đọc **PRD v1.1 §3** cho câu 1.1. Dùng `ops_limits` và `ops_facts` của Day 10 để giải thích các ngưỡng mới ở câu 1.6.
 - **Diệp:** đọc **PRD v1.1 §2 và §6** cùng `data/world.json` mục `staff` cho câu 1.2. Thiết kế tín hiệu theo dõi và ngưỡng cảnh báo cho câu 1.4.
 - **Bảo:** dùng eval card Day 9 để tham khảo cách đánh giá, rồi thiết kế chỉ số offline cho một bước của trợ lý ở câu 1.3 dựa trên dữ liệu Day 10.
