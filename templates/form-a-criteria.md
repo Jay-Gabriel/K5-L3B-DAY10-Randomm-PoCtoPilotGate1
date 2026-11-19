@@ -24,8 +24,8 @@ rồi mới chạy đánh giá. Khối 1 không sửa code.
 
 ### Câu 1.2 · Mục tiêu nhìn từ hai người
 
-- Chị Oanh, kế toán đối soát (không dùng trợ lý, nhưng phải khớp sổ với hãng và shop mỗi tuần): …
-- Chị Hạnh, trưởng ca CSKH (phải duyệt những ca trợ lý chuyển sang): …
+- Chị Oanh, kế toán đối soát (không dùng trợ lý, nhưng phải khớp sổ với hãng và shop mỗi tuần): Mỗi tuần đối chiếu được từng khoản hoàn và từng lỗi hãng theo đơn/kiện, hãng hoặc shop và căn cứ tracking; mọi chênh lệch phải truy ra được bản ghi và nguồn dữ liệu để xử lý, không để quyết định tự động làm sai lệch sổ đối soát.
+- Chị Hạnh, trưởng ca CSKH (phải duyệt những ca trợ lý chuyển sang): Nhận ca cần duyệt kèm lý do, dữ liệu đơn và tracking, số tiền hoàn lũy kế trong ngày và hành động agent định làm; ca vào hàng chờ phải được nhận xử lý trong SLA 60 phút. Chị có thể duyệt khoản vượt hạn mức, còn ca ngoài phạm vi pilot (khiếu nại nhiều đơn, tranh chấp pháp lý phức tạp hoặc yêu cầu trên 500.000đ) phải được giữ lại cho người xử lý, không tự động hoàn.
 
 ---
 
@@ -48,12 +48,12 @@ trợ lý có đang gây thiệt hại cho bên ngoài LogiX không; không có 
 
 | | Offline, cho MỘT bước (câu 1.3) | Telemetry production (câu 1.4) |
 |---|---|---|
-| **Bước / hành vi được đo** | | |
-| **Thước đo** (một câu, có đơn vị) | | |
-| **Dữ liệu** (lấy ở đâu, bao nhiêu, ai gán nhãn) | | |
-| **Cách tính** (công thức, mẫu số, cách xử lý ca thiếu dữ liệu) | | |
-| **Khung thời gian / ngưỡng báo động** | (không áp dụng) | |
-| **Điểm mù** (thước đo này KHÔNG thấy gì) | | |
+| **Bước / hành vi được đo** | | Theo dõi hành động ghi lỗi hãng (`file_carrier_fault`) đã được ghi nhận trong production, vì một lỗi ghi nhầm có thể gây phạt hoặc góp phần làm hãng bị tạm ngưng. |
+| **Thước đo** (một câu, có đơn vị) | | Số lần ghi lỗi hãng thành công được audit ghi nhận trên mỗi hãng (tách tác nhân trợ lý/khác), đơn vị là lần/hãng/cửa sổ 24 giờ hoặc 7 ngày. |
+| **Dữ liệu** (lấy ở đâu, bao nhiêu, ai gán nhãn) | | Nhật ký kiểm toán production của các lần ghi lỗi hãng thành công (mã hãng, thời điểm, mã đơn/kiện và tác nhân), đối chiếu ngưỡng trong danh mục hãng (`suspend_after_strikes_7d`) và giới hạn vận hành; lấy liên tục, không lấy mẫu. Không có nhãn đúng/sai và không cần người gán nhãn. |
+| **Cách tính** (công thức, mẫu số, cách xử lý ca thiếu dữ liệu) | | Với từng hãng, đếm số lần ghi tự động của trợ lý trong 24 giờ trượt và tổng lỗi hãng ghi nhận từ mọi tác nhân trong 7 ngày trượt; báo đỏ nếu số tự động trong 24 giờ đạt 2, hoặc nếu tổng lỗi trong 7 ngày đạt `suspend_after_strikes_7d - 1` (chỉ áp dụng hãng có ngưỡng đình chỉ lớn hơn 0). Không chia mẫu số. Bản ghi thiếu mã hãng/thời điểm hoặc không đối chiếu được ngưỡng được đếm riêng là lỗi telemetry, báo đỏ và tạm dừng ghi tự động cho hãng đó cho tới khi kiểm tra; không âm thầm loại khỏi phép đếm. |
+| **Khung thời gian / ngưỡng báo động** | (không áp dụng) | Cửa sổ trượt 24 giờ và 7 ngày, tính sau mỗi lần ghi lỗi hãng thành công. Ngưỡng đỏ: 2 lần tự động/hãng/24 giờ, hoặc còn cách ngưỡng đình chỉ 7 ngày của hãng một lần ghi. Báo ngay cho giám sát vận hành Lê Thanh Tùng (NV-TUNG); tạm dừng ghi tự động cho hãng đó đến khi Phạm Kiều Oanh (NV-OANH) đối chiếu căn cứ và Tùng cho phép mở lại. |
+| **Điểm mù** (thước đo này KHÔNG thấy gì) | | Đây là tín hiệu rủi ro, không chứng minh lỗi ghi là oan hay hãng đã thực sự bị phạt/đình chỉ; không thấy thiệt hại chưa được ghi nhận, bản ghi từ hệ thống ngoài nhật ký, hoặc nguyên nhân tracking bị ghi sai. Cần đối chiếu chứng từ hãng và dữ liệu nguồn trước kết luận. |
 
 **Ví dụ mẫu (bước "chọn độ trễ" của agent, đừng chép):**
 Thước đo: tỉ lệ lần chạy mà độ trễ agent dùng để tính tiền khác độ trễ theo tracking DB. Dữ liệu: sự kiện `proposal.delay_days_used`
@@ -105,8 +105,8 @@ Giải thích một câu: …
 
 Đây không phải ngưỡng chất lượng. Viết hai câu trên phiếu này thôi, không chép vào `acceptance_criteria.json`.
 
-- Một đầu ra hoặc hành động bị cấm (ví dụ không bao giờ hoàn quá X đồng): ____
-- Ngưỡng chuyển cho người duyệt: ____
+- Một đầu ra hoặc hành động bị cấm (ví dụ không bao giờ hoàn quá X đồng): Không tự động ghi lỗi hãng nếu tracking không ghi nhận nguyên nhân thuộc `CARRIER`; không gửi dữ liệu cá nhân của khách cho hãng. Trợ lý cũng không tự động xử lý ngoài phạm vi PRD: khiếu nại nhiều đơn, tranh chấp pháp lý phức tạp hoặc yêu cầu bồi hoàn trên 500.000đ.
+- Ngưỡng chuyển cho người duyệt: Chuyển trước khi ghi nếu tổng hoàn dự kiến của một khách trong ngày vượt 300.000đ, nếu là lỗi hãng thứ ba của cùng hãng trong ngày, hoặc nếu ca vượt phạm vi pilot; Hạnh duyệt quyết định hoàn, Oanh xác minh căn cứ đối soát lỗi hãng. Khi ngân sách hoàn tự động toàn ngày chạm 2.000.000đ thì dừng hoàn tự động và báo Ops/Finance, không coi đây là trường hợp có thể tự vượt trần bằng duyệt ticket.
 
 #### Bước 2 · Soát từng câu
 

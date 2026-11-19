@@ -15,7 +15,7 @@ Họ tên đầy đủ và MSSV của **mọi** thành viên; bàn 3 người th
 | --: | --------- | ---- | --- | :---------: |
 |   1 |  Trần Gia Bảo         | 2A202603914     |   Tech / Kỹ sư cổng  |       x      |
 |   2 |      Vũ Quang Minh     | 2A202603727     | Sản phẩm và kinh doanh     |             |
-|   3 |  Hoàng Minh Diệp         | 2A202603764     |   Vận hành và pháp lý (phân công đề xuất)  |             |
+|   3 |  Hoàng Minh Diệp         | 2A202603764     |   Vận hành và pháp lý   |             |
 
 Ghi `members` trong `submission/submission.json` theo dạng `"HoVaTen-MSSV"`, khớp bảng trên.
 
