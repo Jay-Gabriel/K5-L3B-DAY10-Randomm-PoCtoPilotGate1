@@ -1,12 +1,16 @@
 {
-  "team": "",
-  "members": [],
-  "incident": "",
-  "decision_v1": "",
-  "decision_v2": "",
+  "team": "K5-L3B-DAY10-Randomm-PoCtoPilotGate1",
+  "members": [
+    "TranGiaBao-2A202603914",
+    "VuQuangMinh-2A202603727",
+    "HoangMinhDiep-2A202603764"
+  ],
+  "incident": "S4",
+  "decision_v1": "Cải tiến thêm",
+  "decision_v2": "Cải tiến thêm",
   "three_lines": {
-    "environment_assumption": "",
-    "reduce_or_prevent": "",
-    "measure_in_pilot": ""
+    "environment_assumption": "Hai người duyệt thực sự có quyền và có mặt đồng thời trong giờ sale, với tổng công suất gần 12 ca/giờ.",
+    "reduce_or_prevent": "Cổng ngân sách ngăn khoản hoàn tự động vượt trần khi dữ liệu ngân sách và sổ cùng ngày chính xác, còn tăng công suất chỉ giảm nguy cơ ùn vì lượt đến có thể tăng tiếp hoặc người trực vắng.",
+    "measure_in_pilot": "Trước Gate 2, đo tải chuyển duyệt theo giờ, thời gian chờ và tỷ lệ chuyển duyệt theo loại ticket, đồng thời đối soát tổng hoàn với Finance và đo chi phí cùng ROI theo kho."
   }
 }

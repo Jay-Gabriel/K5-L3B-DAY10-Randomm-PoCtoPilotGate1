@@ -5,7 +5,7 @@
 - Tên nhóm (`TenNhom`, không dấu, không khoảng trắng): Randomm
 - Lớp: `L3B`
 - Repo của bàn: `K5-L3B-DAY10-Randomm-PoCtoPilotGate1`
-- Thẻ sự cố đã bốc (S1–S8):
+- Thẻ sự cố đã bốc (S1–S8): **S4**
 
 ## Thành viên
 
@@ -23,20 +23,23 @@ Ghi `members` trong `submission/submission.json` theo dạng `"HoVaTen-MSSV"`, k
 
 Mỗi thành viên tự viết một mục bên dưới (chép mẫu, đổi tiêu đề thành họ tên không dấu và MSSV, ví dụ `## NguyenVanAn-20241234`).
 
-## HoVaTen-MSSV
+## TranGiaBao-2A202603914
 
-### Phần việc phụ trách
+- **Phụ trách:** trưởng nhóm, kỹ sư cổng; A2 phần offline, A3, đo và đối chiếu báo cáo, cổng và monitor.
+- **Đóng góp đã ghi nhận:** đối chiếu trace `T-002@55`, chốt vòng 1, tiếp nhận S4 và đo lại sau hai thay đổi. Dùng AI để hỗ trợ đọc mã, soạn cổng và tổng hợp Phiếu B/C; bằng chứng dùng số máy đo.
+- **Bằng chứng:** `0475638`, `f7d4393`, Phiếu B B1–B2 và Phiếu C C7–C8; `R-S4-grade-20261119-170402-5ff541`.
+- **Exit ticket:** Bảo tự ghi một điều học được và một điều còn chưa chắc.
 
-Vai trong bàn; câu nào của đề, mục nào của phiếu A/B/C, file nào (`lab10/guards.py`, `config/operating_gates.json`, …).
+## VuQuangMinh-2A202603727
 
-### Đóng góp cụ thể
+- **Phụ trách:** sản phẩm và kinh doanh; A1 câu 1.1, đề xuất tiêu chí A4 và bản đồ dữ liệu B3.
+- **Đóng góp đã ghi nhận:** mục tiêu vận hành cấp hệ thống, ngưỡng chi phí/ROI và ví dụ drift khi chuyển từ REFUND-v3 sang REFUND-v4.
+- **Bằng chứng:** `2608e10`, `f0fe257`, Phiếu A A1/A4 và Phiếu B B3.
+- **Exit ticket:** Minh tự ghi một điều học được, một điều còn chưa chắc và phần có dùng AI nếu có.
 
-...
+## HoangMinhDiep-2A202603764
 
-### Bằng chứng
-
-Mã commit, mã lần chạy (`runs/<mã>`), dòng trong phiếu.
-
-### Exit ticket
-
-Một điều học được, một điều còn chưa chắc.
+- **Phụ trách:** vận hành và pháp lý; A1 câu 1.2, A2 telemetry, HAZOP và checklist B4–B5.
+- **Đóng góp đã ghi nhận:** mục tiêu của kế toán và người duyệt, tín hiệu rủi ro ghi lỗi hãng, phân loại rủi ro kỹ thuật và ngoài kỹ thuật, chốt PIC cho checklist.
+- **Bằng chứng:** `0c54d28`, `76ac468`, Phiếu A A1/A2 và Phiếu B B4–B5.
+- **Exit ticket:** Diệp tự ghi một điều học được, một điều còn chưa chắc và phần có dùng AI nếu có.

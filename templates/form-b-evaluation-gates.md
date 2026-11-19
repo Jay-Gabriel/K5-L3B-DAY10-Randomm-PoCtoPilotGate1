@@ -386,6 +386,8 @@ Lượng ticket có thể dồn gấp ba trong một giờ (ngày sale, sau bão
 | Ngưỡng nào thì **thu hẹp** phạm vi (khoá `business.pilot_scope`) hoặc **tắt** một thao tác ghi (`config/switches.json`)? Ai quyết? | Có **1 ca ùn** hoặc ca lâu nhất **trên 60 phút**, Tùng tạm loại phần quá tải khỏi phạm vi/luồng ghi liên quan. Nếu có lỗi an toàn, xử lý theo Runbook 3 ngay. |
 | Thêm người thì chi phí mỗi ticket và ROI thay đổi thế nào (đọc report)? | `R-base-after-20261119-161432-a058f8` với 1 người: **4.202đ/ticket, ROI 1,38**. Tính lại trên cùng bộ nền bằng hàm tổng hợp lab với 2 người, 12 ca/giờ: **5.565đ/ticket, ROI 0,80**, phí trực tăng 30.000đ/ca và vẫn 0 ca ùn. Đây là phép thử trong bộ nhớ, cấu hình chốt giữ 1 người. |
 
+> **Bổ sung sau khi nhận S4 (vòng 2).** Mốc prepared S4 có 15/41 ca chuyển duyệt, 4 ca ùn và chờ tối đa 78 phút với một mình Hạnh, công suất 6 ca/giờ. Kích hoạt phương án dự phòng khi có 6 ca đang chờ hoặc ca lâu nhất từ 45 phút. Tùng phải xác nhận người bổ sung có quyền và đã nhận ca trước khi tính tăng công suất. Nếu có ca ùn hoặc chờ trên 60 phút mà dự phòng chưa vào ca, Tùng quyết định thu hẹp luồng đang gây quá tải và Hạnh nhận bàn giao ca tồn. Trần ngày sale là 300.000đ; dừng hoàn tự động khi chạm trần và báo Ops/Finance. Lần thử `R-S4-after-20261119-170304-52261b` với 2 người/12 ca mỗi giờ còn 0 ca ùn, chờ tối đa 13 phút, chi phí 5.708đ/ticket, ROI 0,75. Sau áp thêm trần sale, chờ vẫn 13 phút và chi phí/ROI là 7.157đ/0,40 (mã ở C0).
+
 ---
 
 <a id="b8"></a>

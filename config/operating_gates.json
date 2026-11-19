@@ -9,13 +9,13 @@
   "operations": {
     "pic": "NV-TUNG",
     "approver_id": "NV-HANH",
-    "reviewers_on_shift": 1,
-    "review_capacity_per_hour": 6,
+    "reviewers_on_shift": 2,
+    "review_capacity_per_hour": 12,
     "max_queue_wait_minutes": 60,
     "stop_conditions": [
       "Có hoàn sai, ghi lỗi oan hoặc lộ dữ liệu cá nhân: dừng ngay thao tác ghi liên quan và chuyển người xác minh.",
       "Một ca bị ùn hoặc thời gian chờ vượt 60 phút: gọi dự phòng và ngừng nhận thêm ca tự động ở phần bị quá tải.",
-      "Tổng hoàn tự động chạm 2.000.000 đồng trong ngày: dừng hoàn tự động và báo vận hành, tài chính."
+      "Tổng hoàn tự động chạm mức thấp hơn giữa trần cấu hình và ngân sách Finance trong ngày: dừng hoàn tự động và báo vận hành, tài chính."
     ],
     "alert_channel": "#logix-ops-pilot (kênh mô phỏng)",
     "decision_note": false,

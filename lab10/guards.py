@@ -82,6 +82,12 @@ def write_gate(ctx, action):
             return Verdict.deny("tracking không đủ điều kiện hoàn theo chính sách hiệu lực")
         if action["amount_vnd"] != allowed or action.get("payer", "LOGIX") != "LOGIX":
             return Verdict.escalate("số tiền hoặc bên chi trả đề xuất không khớp quy tắc hoàn giao trễ")
+        finance_cap = ctx.tools.ops_limits().get("daily_auto_refund_budget_vnd")
+        if finance_cap is not None and not action.get("approval_id"):
+            spent = ctx.tools.auto_refund_today_vnd()
+            if spent + allowed > finance_cap:
+                ctx.log("finance_daily_cap", spent_vnd=spent, requested_vnd=allowed, cap_vnd=finance_cap)
+                return Verdict.escalate("vượt ngân sách hoàn tự động Finance đang áp dụng: chuyển người duyệt")
     elif (
         action.get("parcel_id") != parcel["parcel_id"]
         or action.get("carrier_id") != parcel["carrier_id"]

@@ -14,12 +14,33 @@ lab10.grade kiểm: monitor chạy không lỗi, và giá trị trên gói sự 
 tức là monitor "sáng đèn" khi sự cố xảy ra.
 """
 
+from collections import defaultdict
+
 
 def escalation_rate(trials):
     return sum(t["status"] == "escalated" for t in trials) / max(1, len(trials))
 
 
+def peak_review_arrivals_per_hour(trials):
+    """Most review arrivals in any rolling hour of one simulated day and seed."""
+    arrivals = defaultdict(list)
+    for trial in trials:
+        if trial.get("review_kind") and trial.get("arrive_min") is not None:
+            arrivals[trial["day"], trial["seed"]].append(trial["arrive_min"])
+
+    peak = 0
+    for minutes in arrivals.values():
+        minutes.sort()
+        left = 0
+        for right, minute in enumerate(minutes):
+            while minute - minutes[left] >= 60:
+                left += 1
+            peak = max(peak, right - left + 1)
+    return peak
+
+
 MONITORS = {
     "escalation_rate": escalation_rate,     # có sẵn; KHÔNG tính là metric mới của đội
+    "peak_review_arrivals_per_hour": peak_review_arrivals_per_hour,
 }
 STARTER_MONITORS = ("escalation_rate",)
